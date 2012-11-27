@@ -1,6 +1,12 @@
 /*
-  PINS DEFINITIONS FOR AT90USB1287
+  PINS DEFINITIONS FOR AT90USB1286/7
   pins_arduino.h - Pin definition functions for Arduino
+
+  @author
+  Parker Dillmann
+  
+  @author
+  C. A. Church 
 */
 
 #ifndef Pins_Arduino_h
@@ -18,76 +24,12 @@ static const uint8_t MOSI = 10;
 static const uint8_t MISO = 11;
 static const uint8_t SCK  = 9;
 
-static const uint8_t A0 = 40;
-static const uint8_t A1 = 41;
-static const uint8_t A2 = 42;
-static const uint8_t A3 = 43;
-static const uint8_t A4 = 44;
-static const uint8_t A5 = 45;
-static const uint8_t A6 = 46;
-static const uint8_t A7 = 47;	
-/*
-static const uint8_t PA0 = 0;
-static const uint8_t PA1 = 1;
-static const uint8_t PA2 = 2;
-static const uint8_t PA3 = 3;
-static const uint8_t PA4 = 4;
-static const uint8_t PA5 = 5;
-static const uint8_t PA6 = 6;
-static const uint8_t PA7 = 7;
 
-static const uint8_t PB0 = 8;
-static const uint8_t PB1 = 9;
-static const uint8_t PB2 = 10;
-static const uint8_t PB3 = 11;
-static const uint8_t PB4 = 12;
-static const uint8_t PB5 = 13;
-static const uint8_t PB6 = 14;
-static const uint8_t PB7 = 15;
-
-static const uint8_t PC0 = 16;
-static const uint8_t PC1 = 17;
-static const uint8_t PC2 = 18;
-static const uint8_t PC3 = 19;
-static const uint8_t PC4 = 20;
-static const uint8_t PC5 = 21;
-static const uint8_t PC6 = 22;
-static const uint8_t PC7 = 23;
-
-static const uint8_t PD0 = 24;
-static const uint8_t PD1 = 25;
-static const uint8_t PD2 = 26;
-static const uint8_t PD3 = 27;
-static const uint8_t PD4 = 28;
-static const uint8_t PD5 = 29;
-static const uint8_t PD6 = 30;
-static const uint8_t PD7 = 31;
-
-static const uint8_t PE0 = 32;
-static const uint8_t PE1 = 33;
-static const uint8_t PE2 = 34;
-static const uint8_t PE3 = 35;
-static const uint8_t PE4 = 36;
-static const uint8_t PE5 = 37;
-static const uint8_t PE6 = 38;
-static const uint8_t PE7 = 39;
-
-static const uint8_t PF0 = 40;
-static const uint8_t PF1 = 41;
-static const uint8_t PF2 = 42;
-static const uint8_t PF3 = 43;
-static const uint8_t PF4 = 44;
-static const uint8_t PF5 = 45;
-static const uint8_t PF6 = 46;
-static const uint8_t PF7 = 47;
-*/
-
-/*THESE NEED TO BE MODIFIED!!!!*/
-#define digitalPinToPCICR(p)    ((((p) >= 8 && (p) <= 11) || ((p) >= 14 && (p) <= 17) || ((p) >= A8 && (p) <= A10)) ? (&PCICR) : ((uint8_t *)0))
+ // CC: PCInt is only available on PORTB (digital 8-15)
+#define digitalPinToPCICR(p)    ((p) >= 8 && (p) <= 15) ? (&PCICR) : ((uint8_t *)0)
 #define digitalPinToPCICRbit(p) 0
-#define digitalPinToPCMSK(p)    ((((p) >= 8 && (p) <= 11) || ((p) >= 14 && (p) <= 17) || ((p) >= A8 && (p) <= A10)) ? (&PCMSK0) : ((uint8_t *)0))
-#define digitalPinToPCMSKbit(p) ( ((p) >= 8 && (p) <= 11) ? (p) - 4 : ((p) == 14 ? 3 : ((p) == 15 ? 1 : ((p) == 16 ? 2 : ((p) == 17 ? 0 : (p - A8 + 4))))))
-/*!!!!!!*/
+#define digitalPinToPCMSK(p)    ((p) >= 8 && (p) <= 15) ? (&PCIMSK0) : ((uint8_t *)0) 
+#define digitalPinToPCMSKbit(p) ((p) - 8) 
 
 extern const uint8_t PROGMEM analog_pin_to_channel_PGM[];
 #define analogPinToChannel(P)  ( pgm_read_byte( analog_pin_to_channel_PGM + (P) ) )
