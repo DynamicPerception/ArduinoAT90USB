@@ -14,16 +14,15 @@
 
 #include <avr/pgmspace.h>
 
+static const uint8_t MOSI = 10;
+static const uint8_t MISO = 11;
+static const uint8_t SCK  = 9;
+
 #define TX_RX_LED_INIT	DDRD |= (1<<4), DDRD |= (1<<5)
 #define TXLED0			PORTD |= (1<<4)
 #define TXLED1			PORTD &= ~(1<<4)
 #define RXLED0			PORTD |= (1<<5)
 #define RXLED1			PORTD &= ~(1<<5)
-
-static const uint8_t MOSI = 10;
-static const uint8_t MISO = 11;
-static const uint8_t SCK  = 9;
-
 
  // CC: PCInt is only available on PORTB (digital 8-15)
 #define digitalPinToPCICR(p)    ((p) >= 8 && (p) <= 15) ? (&PCICR) : ((uint8_t *)0)
