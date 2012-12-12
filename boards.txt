@@ -478,5 +478,5 @@ AT90usb12878.build.mcu=at90usb1287
 AT90usb12878.build.f_cpu=16000000L
 AT90usb12878.build.vid=0x2341
 AT90usb12878.build.pid=0x8036
-AT90usb12878.build.core=arduino
+AT90usb12878.build.core=AT90USB
 AT90usb12878.build.variant=at90usb128X
