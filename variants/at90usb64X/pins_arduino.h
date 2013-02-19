@@ -1,4 +1,4 @@
-/*
+/**
   PINS DEFINITIONS FOR AT90USB646/7
   pins_arduino.h - Pin definition functions for Arduino
 
