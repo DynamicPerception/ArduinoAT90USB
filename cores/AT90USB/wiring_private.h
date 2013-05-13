@@ -52,7 +52,7 @@ extern "C"{
 #define EXTERNAL_INT_6 6
 #define EXTERNAL_INT_7 7
 
-#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
+#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB647__) || defined(__AVR_AT90USB1286__) || defined(__AVR_AT90USB1287__)
 #define EXTERNAL_NUM_INTERRUPTS 8
 #elif defined(__AVR_ATmega1284P__) 
 #define EXTERNAL_NUM_INTERRUPTS 3
