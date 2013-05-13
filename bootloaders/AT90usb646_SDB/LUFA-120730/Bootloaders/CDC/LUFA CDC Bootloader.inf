@@ -56,5 +56,5 @@ HKR,,EnumPropPages32,,"msports.dll,SerialPortPropPageProvider"
 ;Modify these strings to customize your device
 ;------------------------------------------------------------------------------
 [Strings]
-MFGNAME="http://www.lufa-lib.org"
-DESCRIPTION="LUFA CDC Class Bootloader"
+MFGNAME="Dynamic Perception LLC"
+DESCRIPTION="Dynamic Perception"

@@ -17,8 +17,3 @@ Library Support
 
 There are no known library incompatibilities, if you find any, please submit them in the issues section
 
-Bootloaders
------------
-
-Included are modified LUFA CDC bootloaders.  These bootloaders are streamlined to reduce their size (down to 4K), and also feature the ability to more easily trigger the bootloader.  Now, the bootloaders will automatically enter the bootloader, and will automatically exit.  To stay in the bootloader, bring PF0 LOW during the boot cycle, and then the bootloader will remain active for approx. 30 seconds.  During this time, PC6 will be blinked high to indicate the bootloader is active. This bootloader should be considered similar to the Leonardo bootloader.
-

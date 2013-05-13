@@ -54,7 +54,7 @@ static uint32_t CurrAddress;
 
 static uint16_t Pulse;
 
-static uint16_t TIME_OUT = 0;
+static uint16_t finished = 0;
 
 /** Main program entry point. This routine configures the hardware required by the bootloader, then continuously
  *  runs the bootloader processing routine until instructed to soft-exit, or hard-reset via the watchdog to start
@@ -63,57 +63,51 @@ static uint16_t TIME_OUT = 0;
 int main(void)
 {
 	/* Setup hardware required for the bootloader */
-	DDRF = ~_BV(PF0);	//Set the D-Pad to a digital input
-	DDRC = _BV(PC6);	//Set the LCD backlight as an output
-	
+	DDRF = ~_BV(PF0);	//Set the D-Pad to a digital input	
 	PORTF |= _BV(PF0);	//set pull up on D-Pad
 	
 	/* Disable watchdog if enabled by bootloader/fuses */
 	MCUSR &= ~(1 << WDRF);
 	wdt_disable();
-
-	/* Disable clock division */
-	clock_prescale_set(clock_div_1);
-
-	/* Relocate the interrupt vector table to the bootloader section */
-	MCUCR = (1 << IVCE);
-	MCUCR = (1 << IVSEL);
-
-	/* Initialize the USB and other board hardware drivers */
-	USB_Init();
-
-	/* Enable global interrupts so that the USB stack can function */
-	sei();
 	
 	if(!(PINF & _BV(PF0)))
 	{
-		TIME_OUT = 100;
-	}
-	else
-	{
-		TIME_OUT = 0;
-	}
-	while (TIME_OUT > 0)
-	{
-		CDC_Task();
-		USB_USBTask();
-		BL_Pulse();
-	}
+		/* Set the LCD backlight as an output */
+		DDRC = _BV(PC6);	
+		
+		/* Disable clock division */
+		clock_prescale_set(clock_div_1);
 
-	/* Disconnect from the host - USB interface will be reset later along with the AVR */
-	USB_Detach();
+		/* Relocate the interrupt vector table to the bootloader section */
+		MCUCR = (1 << IVCE);
+		MCUCR = (1 << IVSEL);
+
+		/* Initialize the USB and other board hardware drivers */
+		USB_Init();
+
+		/* Enable global interrupts so that the USB stack can function */
+		sei();
+		
+		while (finished == 0)
+		{
+			CDC_Task();
+			USB_USBTask();
+			BL_Pulse();
+		}
+		
+		/*enable watchdog to reset the AVR */
+		wdt_enable(WDTO_15MS);
+		
+		/* Disconnect from the host - USB interface will be reset later along with the AVR */
+		USB_Detach();
 	
-	cli();
-	
-	MCUCR = (1 << IVCE);
-	MCUCR = 0;
+		cli();	
+		
+		while(1);  //wait for watchdog to byte. 
+	}
 	
 	/*RESET I/O*/
 	PORTF &= ~_BV(PF0);
-
-	/* Turn off the watchdog */
-	MCUSR &= ~(1<<WDRF);
-	wdt_disable(); 
 
 	/*jump the ship!*/
 	((void (*)(void))0x0000)();
@@ -135,10 +129,6 @@ void BL_Pulse(void)
 	else
 	{
 		PORTC |= _BV(PC6);
-	}
-	if(Pulse == 65000)
-	{
-		TIME_OUT = TIME_OUT - 1;
 	}
 }
 
@@ -382,10 +372,10 @@ static void CDC_Task(void)
 
 	if (Command == 'E')
 	{
-		TIME_OUT = 0;
 
 		/* Send confirmation byte back to the host */
 		WriteNextResponseByte('\r');
+		finished = 1;
 	}
 	else if (Command == 'T')
 	{
