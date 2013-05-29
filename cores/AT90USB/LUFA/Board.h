@@ -22,7 +22,7 @@
 #elif defined(__AVR_ATmega32U4__)
 #define JUMPER		        (1 << 2)
 #define LED			(1 << 7)
-#elif defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__)
+#elif defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__) || defined(__AVR_AT90USB647__) || defined(__AVR_AT90USB1287__)
 #define JUMPER                  (1 << 2)
 #define LED                     (1 << 0)
 #else
