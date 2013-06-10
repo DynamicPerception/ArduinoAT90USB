@@ -45,6 +45,8 @@ extern "C"{
 #define DEFAULT 1
 #define EXTERNAL 0
 
+#define F_USB F_CPU
+
 // undefine stdlib's abs if encountered
 #ifdef abs
 #undef abs
@@ -181,7 +183,6 @@ extern const uint8_t PROGMEM digital_pin_to_timer_PGM[];
 #include "WCharacter.h"
 #include "WString.h"
 #include "HardwareSerial.h"
-#include <usb_api.h>
 
 uint16_t makeWord(uint16_t w);
 uint16_t makeWord(byte h, byte l);
