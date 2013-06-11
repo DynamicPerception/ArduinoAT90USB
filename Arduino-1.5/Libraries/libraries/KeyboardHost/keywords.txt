@@ -1,0 +1,11 @@
+KeyMapType	KEYWORD1
+KeyDesc KEYWORD1
+KeysPressed KEYWORD1
+
+
+getKeys KEYWORD2
+mapping KEYWORD2
+
+
+MAP_None    LITERAL1
+MAP_US_English  LITERAL1

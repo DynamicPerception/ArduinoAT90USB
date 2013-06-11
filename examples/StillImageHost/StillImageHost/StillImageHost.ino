@@ -110,12 +110,6 @@ void loop() {
 }
 
 
-int main(void) {
-  sei();
-  setup();
-  while(1)
-   loop(); 
-}
 
 /** Configures the board hardware and chip peripherals for the demo's functionality. */
 
