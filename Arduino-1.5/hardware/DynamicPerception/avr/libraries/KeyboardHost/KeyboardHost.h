@@ -82,7 +82,7 @@
 #include <avr/power.h>
 #include <avr/interrupt.h>
 
-#include "../../ArduinoLUFA/arch/avr/ArduinoLUFA.h"
+#include "../ArduinoLUFA/ArduinoLUFA.h"
 
 
 #if ! defined(USB_CAN_BE_BOTH) || ! defined(USB_CAN_BE_HOST)
