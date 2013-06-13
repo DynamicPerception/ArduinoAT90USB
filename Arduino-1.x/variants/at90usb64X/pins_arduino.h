@@ -14,6 +14,12 @@
 
 #include <avr/pgmspace.h>
 
+//I2C Mapping
+static const uint8_t SDA = 25;
+static const uint8_t SCL = 24;
+
+//SPI Port Mapping
+static const uint8_t SS   = 8; 
 static const uint8_t MOSI = 10;
 static const uint8_t MISO = 11;
 static const uint8_t SCK  = 9;
