@@ -55,7 +55,6 @@
 		#include "../USBTask.h"
 		#include "../USBInterrupt.h"
 
-
 		#if defined(USB_CAN_BE_HOST) || defined(__DOXYGEN__)
 			#include "../Host.h"
 			#include "../OTG.h"

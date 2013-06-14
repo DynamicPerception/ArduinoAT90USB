@@ -8,23 +8,24 @@
  *
  *  \section Sec_BuildSystemOverview Overview of the LUFA Build System
  *  The LUFA build system is an attempt at making a set of re-usable, modular build make files which
- *  can be referenced in a LUFA powered project, to minimise the amount of code required in an
- *  application makefile. The system is written in GNU Make, and each module is independant of
+ *  can be referenced in a LUFA powered project, to minimize the amount of code required in an
+ *  application makefile. The system is written in GNU Make, and each module is independent of
  *  one-another.
  *
  *  For details on the prerequisites needed for Linux and Windows machines to be able to use the LUFA
  *  build system, see \ref Sec_Prerequisites.
  *
- *  To use a LUFA build system module, simply add an include to your project makefile:
+ *  To use a LUFA build system module, simply add an include to your project makefile. All user projects
+ *  should at a minimum include \ref Page_BuildModule_CORE for base functionality:
  *  \code
  *  include $(LUFA_PATH)/Build/lufa_core.mk
  *  \endcode
  *
- *  And the associated build module targets will be added to your project's build makefile automatically.
- *  To call a build target, run <tt>make {TARGET_NAME}</tt> from the command line, substituting in
- *  the appropriate target name.
+ *  Once included in your project makefile, the associated build module targets will be added to your
+ *  project's build makefile targets automatically. To call a build target, run <tt>make {TARGET_NAME}</tt>
+ *  from the command line, substituting in the appropriate target name.
  *
- *  \see \ref Sec_AppConfigParams for a copy of the sample LUFA project makefile.
+ *  \see \ref Sec_AppMakefileParams for a copy of the sample LUFA project makefile.
  *
  *  Each build module may have one or more mandatory parameters (GNU Make variables) which <i>must</i>
  *  be supplied in the project makefile for the module to work, and one or more optional parameters which
@@ -43,13 +44,15 @@
  *  \li \subpage Page_BuildModule_DOXYGEN - Automated Source Code Documentation
  *  \li \subpage Page_BuildModule_HID - Device Programming
  *  \li \subpage Page_BuildModule_SOURCES - LUFA Module Source Code Variables
+ *
+ *  If you have problems building using the LUFA build system, see \subpage Page_BuildTroubleshooting for resolution steps.
  */
- 
+
  /** \page Page_BuildModule_BUILD The BUILD build module
  *
  *  The BUILD LUFA build system module, providing targets for the compilation,
  *  assembling and linking of an application from source code into binary files
- *  suitable for programming into a target device.
+ *  suitable for programming into a target device, using the GCC compiler.
  *
  *  To use this module in your application makefile, add the following code:
  *  \code
@@ -57,7 +60,7 @@
  *  \endcode
  *
  *  \section SSec_BuildModule_BUILD_Requirements Requirements
- *  This module requires the the architecture appropriate binaries of the GCC compiler are  available in your
+ *  This module requires the the architecture appropriate binaries of the GCC compiler are available in your
  *  system's <b>PATH</b> variable. The GCC compiler and associated toolchain is distributed in Atmel AVR Studio
  *  5.x and Atmel Studio 6.x installation directories, as well as in many third party distribution packages.
  *
@@ -71,10 +74,6 @@
  *   <tr>
  *    <td><tt>symbol-sizes</tt></td>
  *    <td>Display a size-sorted list of symbols from the compiled application, in decimal bytes.</td>
- *   </tr>
- *   <tr>
- *    <td><tt>check-source</tt></td>
- *    <td>Display a list of input SRC source files which cannot be found (if any).</td>
  *   </tr>
  *   <tr>
  *    <td><tt>lib</tt></td>
@@ -98,11 +97,15 @@
  *   </tr>
  *   <tr>
  *    <td><tt>clean</tt></td>
- *    <td>Remove all intermediatary files and binary output files.</td>
+ *    <td>Remove all intermediary files and binary output files.</td>
  *   </tr>
  *   <tr>
  *    <td><tt>mostlyclean</tt></td>
- *    <td>Remove all intermediatary files but preserve any binary output files.</td>
+ *    <td>Remove all intermediary files but preserve any binary output files.</td>
+ *   </tr>
+ *   <tr>
+ *    <td><tt><i>&lt;filename&gt;</i>.s</tt></td>
+ *    <td>Create an assembly listing of a given input C/C++ source file.</td>
  *   </tr>
  *  </table>
  *
@@ -187,6 +190,13 @@
  *    <td>Flags to pass to the linker, after the automatically generated flags.</td>
  *   </tr>
  *   <tr>
+ *    <td><tt>LINKER_RELAXATIONS</tt></td>
+ *    <td>Enables or disables linker relaxations when linking the application binary. This can reduce the total size
+ *        of the application by replacing full \c CALL instructions with smaller \c RCALL instructions where possible.
+ *        \note On some unpatched versions of binutils, this can cause link failures in some circumstances. If you
+ *              receive a link error <tt>relocation truncated to fit: R_AVR_13_PCREL</tt>, disable this setting.</td>
+ *   </tr>
+ *   <tr>
  *    <td><tt>OBJDIR</tt></td>
  *    <td>Directory to place the generated object and dependency files. If set to "." the same folder as the source file will be used.
  *        \note When this option is enabled, all source filenames <b>must</b> be unique.</td>
@@ -203,7 +213,7 @@
  *   <tr>
  *    <td><i>None</i></td>
  *   </tr>
- *  </table> 
+ *  </table>
  *
  *  \section SSec_BuildModule_BUILD_ProvidedMacros Module Provided Macros
  *
@@ -282,7 +292,7 @@
  *   <tr>
  *    <td><i>None</i></td>
  *   </tr>
- *  </table> 
+ *  </table>
  *
  *  \section SSec_BuildModule_CORE_ProvidedMacros Module Provided Macros
  *
@@ -357,7 +367,7 @@
  *   <tr>
  *    <td><i>None</i></td>
  *   </tr>
- *  </table> 
+ *  </table>
  *
  *  \section SSec_BuildModule_ATPROGRAM_ProvidedMacros Module Provided Macros
  *
@@ -381,7 +391,7 @@
  *  \section SSec_BuildModule_AVRDUDE_Requirements Requirements
  *  This module requires the <tt>avrdude</tt> utility to be available in your system's <b>PATH</b>
  *  variable. The <tt>avrdude</tt> utility is distributed in the old WinAVR project releases for
- *  Windows (<a>winavr.sourceforge.net</a>) or can be installed on *nix systems via the project's
+ *  Windows (<a>http://winavr.sourceforge.net</a>) or can be installed on *nix systems via the project's
  *  source code (<a>https://savannah.nongnu.org/projects/avrdude</a>) or through the package manager.
  *
  *  \section SSec_BuildModule_AVRDUDE_Targets Targets
@@ -392,7 +402,7 @@
  *    <td>Program the device FLASH memory with the application's executable data.</td>
  *   </tr>
  *   <tr>
- *    <td><tt>avrdude</tt></td>
+ *    <td><tt>avrdude-ee</tt></td>
  *    <td>Program the device EEPROM memory with the application's EEPROM data.</td>
  *   </tr>
  *  </table>
@@ -418,11 +428,11 @@
  *    <td>Name of the programmer or debugger tool to communicate with (e.g. <tt>jtagicemkii</tt>).</td>
  *   </tr>
  *   <tr>
- *    <td><tt>ATPROGRAM_PORT</tt></td>
+ *    <td><tt>AVRDUDE_PORT</tt></td>
  *    <td>Name of the communication port to use when when programming with the connected tool (e.g. <tt>COM2</tt>, <tt>/dev/ttyUSB0</tt> or <tt>usb</tt>).</td>
  *   </tr>
  *   <tr>
- *    <td><tt>ATPROGRAM_FLAGS</tt></td>
+ *    <td><tt>AVRDUDE_FLAGS</tt></td>
  *    <td>Additional flags to pass to avrdude when programming, applied after the automatically generated flags.</td>
  *   </tr>
  *  </table>
@@ -433,7 +443,7 @@
  *   <tr>
  *    <td><i>None</i></td>
  *   </tr>
- *  </table> 
+ *  </table>
  *
  *  \section SSec_BuildModule_AVRDUDE_ProvidedMacros Module Provided Macros
  *
@@ -443,7 +453,7 @@
  *   </tr>
  *  </table>
  */
- 
+
  /** \page Page_BuildModule_CPPCHECK The CPPCHECK build module
  *
  *  The CPPCHECK programming utility LUFA build system module, providing targets to statically
@@ -525,7 +535,7 @@
  *   <tr>
  *    <td><i>None</i></td>
  *   </tr>
- *  </table> 
+ *  </table>
  *
  *  \section SSec_BuildModule_CPPCHECK_ProvidedMacros Module Provided Macros
  *
@@ -535,7 +545,7 @@
  *   </tr>
  *  </table>
  */
- 
+
  /** \page Page_BuildModule_DFU The DFU build module
  *
  *  The DFU programming utility LUFA build system module, providing targets to reprogram an
@@ -602,7 +612,7 @@
  *   <tr>
  *    <td><i>None</i></td>
  *   </tr>
- *  </table> 
+ *  </table>
  *
  *  \section SSec_BuildModule_DFU_ProvidedMacros Module Provided Macros
  *
@@ -612,7 +622,7 @@
  *   </tr>
  *  </table>
  */
- 
+
  /** \page Page_BuildModule_DOXYGEN The DOXYGEN build module
  *
  *  The DOXYGEN code documentation utility LUFA build system module, providing targets to generate
@@ -626,9 +636,9 @@
  *
  *  \section SSec_BuildModule_DOXYGEN_Requirements Requirements
  *  This module requires the <tt>doxygen</tt> utility from the Doxygen website
- *  (<a>http://www.stack.nl/~dimitri/doxygen/</a>) to be available in your system's <b>PATH</b>
- *  variable. On *nix systems the <tt>doxygen</tt> utility can be installed via the project's source
- *  code or through the package manager.
+ *  (<a>http://www.doxygen.org/</a>) to be available in your system's <b>PATH</b> variable. On *nix
+ *  systems the <tt>doxygen</tt> utility can be installed via the project's source code or through
+ *  the package manager.
  *
  *  \section SSec_BuildModule_DOXYGEN_Targets Targets
  *
@@ -636,6 +646,14 @@
  *   <tr>
  *    <td><tt>doxygen</tt></td>
  *    <td>Generate project documentation.</td>
+ *   </tr>
+ *   <tr>
+ *    <td><tt>doxygen_create</tt></td>
+ *    <td>Create a new Doxygen configuration file using the latest template.</td>
+ *   </tr>
+ *   <tr>
+ *    <td><tt>doxygen_upgrade</tt></td>
+ *    <td>Upgrade an existing Doxygen configuration file to the latest template</td>
  *   </tr>
  *  </table>
  *
@@ -671,7 +689,7 @@
  *   <tr>
  *    <td><i>None</i></td>
  *   </tr>
- *  </table> 
+ *  </table>
  *
  *  \section SSec_BuildModule_DOXYGEN_ProvidedMacros Module Provided Macros
  *
@@ -681,7 +699,7 @@
  *   </tr>
  *  </table>
  */
- 
+
  /** \page Page_BuildModule_HID The HID build module
  *
  *  The HID programming utility LUFA build system module, providing targets to reprogram an
@@ -752,7 +770,7 @@
  *   <tr>
  *    <td><i>None</i></td>
  *   </tr>
- *  </table> 
+ *  </table>
  *
  *  \section SSec_BuildModule_HID_ProvidedMacros Module Provided Macros
  *
@@ -762,7 +780,7 @@
  *   </tr>
  *  </table>
  */
- 
+
  /** \page Page_BuildModule_SOURCES The SOURCES build module
  *
  *  The SOURCES LUFA build system module, providing variables listing the various LUFA source files
@@ -833,8 +851,8 @@
  *   <tr>
  *    <td><tt>LUFA_SRC_PLATFORM</tt></td>
  *    <td>List of LUFA architecture specific platform management source files.</td>
- *   </tr> 
- *  </table> 
+ *   </tr>
+ *  </table>
  *
  *  \section SSec_BuildModule_SOURCES_ProvidedMacros Module Provided Macros
  *
@@ -843,4 +861,123 @@
  *    <td><i>None</i></td>
  *   </tr>
  *  </table>
+ */
+
+/** \page Page_BuildTroubleshooting Troubleshooting Information
+ *
+ *  LUFA uses a lot of advanced features of the AVR-GCC compiler, linker, and surrounding binaries. This can sometimes lead to problems compiling applications if one of these
+ *  features is buggy in the version of the tools used in a build environment. Missing utilities and incorrectly set makefile configuration options can also result in different
+ *  errors being produced when compilation or other operations are attempted. The table below lists a set of commonly encountered errors and their resolutions.
+ *
+ *  <table>
+ *    <tr>
+ *    <th>Problem</th>
+ *    <th>Resolution</th>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>relocation truncated to fit: R_AVR_13_PCREL against symbol <i>{X}</i></tt></b>&quot; shown when compiling.</td>
+ *    <td>Try compiling with the setting <tt>LINKER_RELAXATIONS=N</tt> in your LUFA Build System 2.0 makefile, or remove the line <tt>-Wl,--relax</tt>
+ *        from other makefiles. Alternatively, make sure you have the latest version of the Atmel Toolchain installed for your system.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>error: ld terminated with signal 11 [Segmentation fault]</tt></b>&quot; shown when compiling.</td>
+ *    <td>Try compiling with the setting <tt>DEBUG_LEVEL=2</tt> in your LUFA Build System 2.0 makefile, or make sure you are using <tt>binutils</tt> version 2.22 or later.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>EMERGENCY ABORT: INFINITE RECURSION DETECTED</tt></b>&quot; shown when compiling.</td>
+ *    <td>Make sure you are using an up to date version of GNU Make when compiling. This error is a safety system added to the mid-level makefiles, to prevent an issue with
+ *        GNU make or other variants of Make causing an infinitely recursive build.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>Unsupported architecture &quot;<i>{X}</i>&quot;</tt></b>&quot; shown when compiling.</td>
+ *    <td>Ensure your makefile's <tt>ARCH</tt> setting is set to one of the architecture names (case-sensitive) supported by the version of LUFA you are compiling against.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>Makefile <i>{X}</i> value not set</tt></b>&quot; shown when compiling.</td>
+ *    <td>The specified Makefile value was not configured in your project's makefile or on the command line, and the nominated setting is required by one or more LUFA
+ *        build system modules. Define the value in your project makefile and try again.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>Makefile <i>{X}</i> option cannot be blank</tt></b>&quot; shown when compiling.</td>
+ *    <td>The specified Makefile value was configured in your project's makefile or on the command line, but was set to an empty value. For the nominated configuration
+ *        option, an empty value is not allowed. Define the nominated setting to a correct non-blank value and try again.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>Makefile <i>{X}</i> option must be Y or N</tt></b>&quot; shown when compiling.</td>
+ *    <td>The specified Makefile value was configured in your project's makefile or on the command line, but was set to a value other than a Y (for "Yes") or "N" (for "No").
+ *        This configuration option is required to be one of the aformentioned boolean values, and other values are invalid. Set this option to either Y or N and try again.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>Unknown input source file formats: <i>{X}</i></tt></b>&quot; shown when compiling.</td>
+ *    <td>The nominated source files, specified in your project's makefile in the <tt>SRC</tt> configuration option, has an extension that the LUFA build system does not
+ *        recognise. The file extensions are case sensitive, and must be one of the supported formats (<tt>*.c</tt>, <tt>*.cpp</tt> or <tt>*.S</tt>).</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>Cannot build with OBJDIR parameter set - one or more object file name is not unique</tt></b>&quot; shown when compiling.</td>
+ *    <td>When a project is built with a non-empty <tt>OBJDIR</tt> object directory name set, all input source files must have unique names, excluding extension and path.
+ *        This means that input files that are named identically and differ only by their path or extension are invalid when this mode is used.</td>
+ *   </tr> 
+ *   <tr>
+ *    <td>Error &quot;<b><tt>Source file does not exist: <i>{X}</i></tt></b>&quot; shown when compiling.</td>
+ *    <td>The nominated input source file, specified in the user project's <tt>SRC</tt> parameter, could not be found. Ensure the source file exists and the absolute or
+ *        relative path given in the user project makefile is correct and try again.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>Doxygen configuration file <i>{X}</i> does not exist</tt></b>&quot; shown when upgrading a Doxygen configuration file.</td>
+ *    <td>The nominated Doxygen configuration file, specified in the user project's <tt>DOXYGEN_CONF</tt> parameter, could not be found. Ensure the configuration file exists
+ *        and the absolute or relative path given in the user project makefile is correct and try again, or run the appropriate makefile target to generate a new configuration
+ *        file.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>avr-gcc: error: unrecognized option '<i>{X}</i>'</tt></b>&quot; shown when compiling.</td>
+ *    <td>An unrecognised option was supplied to the compiler, usually in the <tt>C_FLAGS</tt>, <tt>CPP_FLAGS</tt>, <tt>ASM_FLAGS</tt> or <tt>CC_FLAGS</tt> configuration
+ *        options. The nominated compiler switch may be invalid, or unsupported by the version of AVR-GCC on the host system. Remove the unrecognised flag if invalid, or
+ *        upgrade to the latest AVR-GCC. If the option is a valid linker option, use the prefix "-Wl," to ensure it is passed to the linker correctly.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>avr-gcc: error: unrecognized option '<i>{X}</i>'</tt></b>&quot; shown when compiling.</td>
+ *    <td>An unrecognised option was supplied to the compiler, usually in the <tt>C_FLAGS</tt>, <tt>CPP_FLAGS</tt>, <tt>ASM_FLAGS</tt> or <tt>CC_FLAGS</tt> configuration
+ *        options. The nominated compiler switch may be invalid, or unsupported by the version of AVR-GCC on the host system. Remove the unrecognised flag if invalid, or
+ *        upgrade to the latest AVR-GCC. If the option is a valid linker option, use the prefix "-Wl," to ensure it is passed to the linker correctly.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>makefile:{X}: {Y}.mk: No such file or directory</tt></b>&quot; shown when make is invoked.</td>
+ *    <td>The path to the nominated makefile module was incorrect. This usually indicates that the makefile <tt>LUFA_PATH</tt> option is not set to a valid relative or
+ *        absolute path to the LUFA library core.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>makefile:{X}: {Y}.mk: No such file or directory</tt></b>&quot; shown when make is invoked.</td>
+ *    <td>The path to the nominated makefile module was incorrect. This usually indicates that the makefile <tt>LUFA_PATH</tt> option is not set to a valid relative or
+ *        absolute path to the LUFA library core.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>fatal error: LUFAConfig.h: No such file or directory</tt></b>&quot; shown when compiling.</td>
+ *    <td>The <tt>USE_LUFA_CONFIG_HEADER</tt> compile time option was set in the user project makefile, but the user supplied <tt>LUFAConfig.h</tt> header could not be
+ *        found. Ensure that the directory that contains this configuration file is correctly passed to the compiler via the -I switch in the makefile <tt>CC_FLAGS</tt>
+ *        parameter.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>ld.exe: section .apitable_trampolines loaded at <i>{X}</i> overlaps section .text</tt></b>&quot; shown when compiling a bootloader.</td>
+ *    <td>The bootloader is compiling too large for the given <tt>FLASH_SIZE_KB</tt> and <tt>BOOT_SECTION_SIZE_KB</tt> parameters set in the bootloader makefile. This
+ *        usually indicates that these values are incorrect for the specified device the bootloader is targeting. If these values are correct, a newer version of the
+ *        compiler may need to be used to ensure that the bootloader is built within the section size constraints of the target device.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>unknown MCU '<i>{X}</i>' specified</tt></b>&quot; shown when compiling.</td>
+ *    <td>The specified micocontroller device model name set in the user application's makefile as the <tt>MCU</tt> parameter is incorrect, or unsupported by the
+ *        version of the compiler being used. Make sure the model name is correct, or upgrade to the latest Atmel Toolchain to obtain newer device support.</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>error: invalid suffix "x" on integer constant</tt></b>&quot; shown when compiling a bootloader.</td>
+ *    <td>This is usually caused by the <tt>bc.exe</tt> application not being found in the system's <tt>PATH</tt> variable. Make sure you have the <tt>bc.exe</tt> tool
+ *        installed correctly (see \ref Sec_Prerequisites).</td>
+ *   </tr>
+ *   <tr>
+ *    <td>Error &quot;<b><tt>undefined reference to `<i>{X}</i>'</tt></b>&quot; shown when compiling.</td>
+ *    <td>This is usually caused by a missing source file in the user application's <tt>SRC</tt> configuration parameter. If the indicated symbol is one from the LUFA
+ *        library, you may be missing a LUFA source makefile module (see \ref Page_BuildModule_SOURCES).</td>
+ *   </tr>
+ *  </table>
+ *
+ *  For troubleshooting other errors you encounter, please see \ref Sec_ProjectHelp.
  */

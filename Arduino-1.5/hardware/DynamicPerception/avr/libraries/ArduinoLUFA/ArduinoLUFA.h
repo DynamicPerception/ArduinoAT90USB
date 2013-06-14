@@ -69,7 +69,11 @@ enum LUFAErr {
     /** Hardware Error Occurred */
     ERROR_HARD,
     /** Unknown Keyboard Mapping Specified for KeyboardHost */
-    ERROR_NOMAP
+    ERROR_NOMAP,
+    /** Error Transmitting Byte */
+    ERROR_XMIT,
+    /** Error Receiving Byte */
+    ERROR_RECV
 };
 
 /** Common Status Codes */

@@ -19,7 +19,7 @@ compiler.c.elf.flags=-Os -Wl,--gc-sections
 compiler.c.elf.cmd=avr-gcc
 compiler.S.flags=-c -g -assembler-with-cpp
 compiler.cpp.cmd=avr-g++
-compiler.cpp.flags=-c -g -Os -fno-exceptions -ffunction-sections -fdata-sections -MMD
+compiler.cpp.flags=-c -std=gnu++98 -g -Os -fno-exceptions -ffunction-sections -fdata-sections -MMD -fno-strict-aliasing -funsigned-char -funsigned-bitfields -fshort-enums -fno-inline-small-functions -fpack-struct
 compiler.ar.cmd=avr-ar
 compiler.ar.flags=rcs
 compiler.objcopy.cmd=avr-objcopy

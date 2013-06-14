@@ -375,7 +375,6 @@
 #ifndef __USB_H__
 #define __USB_H__
 
-
 	/* Macros: */
 		#define __INCLUDE_FROM_USB_DRIVER
 

@@ -49,8 +49,6 @@
 #ifndef __USBDEVICE_H__
 #define __USBDEVICE_H__
 
-
-
 	/* Includes: */
 		#include "../../../Common/Common.h"
 		#include "USBMode.h"

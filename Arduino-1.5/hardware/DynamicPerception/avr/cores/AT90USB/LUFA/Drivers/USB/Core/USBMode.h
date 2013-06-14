@@ -55,7 +55,6 @@
 #ifndef __USBMODE_H__
 #define __USBMODE_H__
 
-
 	/* Enable C linkage for C++ Compilers: */
 		#if defined(__cplusplus)
 			extern "C" {
