@@ -17,6 +17,18 @@
     #define Serial Serial1
 #endif
 
+#if defined(USB_CAN_BE_DEVICE)
+	#warning This Unit Can Be a USB Device
+#endif
+
+
+#if defined(USB_CAN_BE_HOST)
+	#warning This Unit Can Be a USB Host
+#endif
+
+#if defined(USB_CAN_BE_BOTH)
+	#warning This Unit Can Be Both a USB Host and Device
+#endif
 
 #ifdef __cplusplus
 extern "C"{
