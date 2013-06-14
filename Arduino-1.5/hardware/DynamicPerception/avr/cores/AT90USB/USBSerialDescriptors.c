@@ -224,6 +224,8 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
                                     const void** const DescriptorAddress)
 {
     
+    digitalWrite(22, HIGH);
+
     
 	const uint8_t  DescriptorType   = (wValue >> 8);
 	const uint8_t  DescriptorNumber = (wValue & 0xFF);
@@ -260,6 +262,7 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
             
 			break;
 	}
+    
     
 	*DescriptorAddress = Address;
 	return Size;

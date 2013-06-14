@@ -2,42 +2,41 @@
 
 
 
-
-USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface = {
-    // .Config =
-    {
-         // .ControlInterfaceNumber   =  
-        0,
-        // .DataINEndpoint           = 
+   
+    USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface = {
+        // .Config =
         {
-           // .Address          = 
-            CDC_TX_EPADDR,
-           // .Size             = 
-            CDC_TXRX_EPSIZE,
-           // .Banks            = 
-            1,
+             // .ControlInterfaceNumber   =  
+            0,
+            // .DataINEndpoint           = 
+            {
+               // .Address          = 
+                CDC_TX_EPADDR,
+               // .Size             = 
+                CDC_TXRX_EPSIZE,
+               // .Banks            = 
+                1,
+            },
+            // .DataOUTEndpoint =
+            {
+                // .Address          = 
+                CDC_RX_EPADDR,
+                // .Size             = 
+                CDC_TXRX_EPSIZE,
+                // .Banks            = 
+                1,
+            },
+            // .NotificationEndpoint =
+            {
+                // .Address          = 
+                CDC_NOTIFICATION_EPADDR,
+                // .Size             = 
+                CDC_NOTIFICATION_EPSIZE,
+                // .Banks            = 
+                1,
+            },
         },
-        // .DataOUTEndpoint =
-        {
-            // .Address          = 
-            CDC_RX_EPADDR,
-            // .Size             = 
-            CDC_TXRX_EPSIZE,
-            // .Banks            = 
-            1,
-        },
-        // .NotificationEndpoint =
-        {
-            // .Address          = 
-            CDC_NOTIFICATION_EPADDR,
-            // .Size             = 
-            CDC_NOTIFICATION_EPSIZE,
-            // .Banks            = 
-            1,
-        },
-    },
-};
-
+    };
 
 
 
@@ -62,9 +61,7 @@ void USBSerial_::begin(long p_baud) {
 #else
     USB_Init(USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL);
 #endif
-    
-
-    
+       
     GlobalInterruptEnable();
     
     _doTasks();

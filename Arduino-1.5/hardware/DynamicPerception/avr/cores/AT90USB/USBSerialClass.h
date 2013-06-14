@@ -35,6 +35,8 @@
 
 #include "USBSerialDescriptors.h"
 
+extern USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface;
+
 
 class USBSerial_ : public Stream {
 
