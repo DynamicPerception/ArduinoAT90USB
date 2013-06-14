@@ -1,8 +1,9 @@
 #include "USBSerial.h"
 
 
-USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface =
-{
+
+
+USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface = {
     // .Config =
     {
          // .ControlInterfaceNumber   =  
@@ -36,6 +37,7 @@ USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface =
         },
     },
 };
+
 
 
 
@@ -158,23 +160,20 @@ USBSerial_::operator bool() {
 }
 
 
-USBSerial_ Serial = USBSerial_();
+USBSerial_ USBSerial = USBSerial_();
 
 /** Event handler for the library USB Connection event. */
-void EVENT_USB_Device_Connect(void)
-{
+void EVENT_USB_Device_Connect(void) {
 	
 }
 
 /** Event handler for the library USB Disconnection event. */
-void EVENT_USB_Device_Disconnect(void)
-{
+void EVENT_USB_Device_Disconnect(void) {
 	
 }
 
 /** Event handler for the library USB Configuration Changed event. */
-void EVENT_USB_Device_ConfigurationChanged(void)
-{
+void EVENT_USB_Device_ConfigurationChanged(void) {
 	bool ConfigSuccess = true;
     
 	ConfigSuccess &= CDC_Device_ConfigureEndpoints(&VirtualSerial_CDC_Interface);
@@ -183,8 +182,7 @@ void EVENT_USB_Device_ConfigurationChanged(void)
  }
 
 /** Event handler for the library USB Control Request reception event. */
-void EVENT_USB_Device_ControlRequest(void)
-{
+void EVENT_USB_Device_ControlRequest(void) {
        	CDC_Device_ProcessControlRequest(&VirtualSerial_CDC_Interface);
 }
 

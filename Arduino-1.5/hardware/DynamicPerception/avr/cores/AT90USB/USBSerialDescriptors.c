@@ -38,6 +38,11 @@
 #include "USBSerialDescriptors.h"
 #include "Arduino.h"
 
+/* Enable C linkage for C++ Compilers: */
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
 /** Device descriptor structure. This descriptor, located in FLASH memory, describes the overall
  *  device characteristics, including the supported USB version, control endpoint size and the
  *  number of device configurations. The descriptor is read out by the USB host when the enumeration
@@ -259,4 +264,10 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
 	*DescriptorAddress = Address;
 	return Size;
 }
+    
+    /* Enable C linkage for C++ Compilers: */
+#if defined(__cplusplus)
+}
+#endif
+
 

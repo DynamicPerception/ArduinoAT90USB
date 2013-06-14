@@ -56,7 +56,7 @@ private:
     void _doTasks();
 };
 
-extern USBSerial_ Serial;
+extern USBSerial_ USBSerial;
 
 
 // C functions from LUFA

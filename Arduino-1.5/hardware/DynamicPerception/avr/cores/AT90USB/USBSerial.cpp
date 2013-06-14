@@ -170,7 +170,7 @@ USBSerial_::operator bool() {
 }
 
 
-USBSerial_ Serial;
+USBSerial_ USBSerial;
 
 /** Event handler for the library USB Connection event. */
 void EVENT_USB_Device_Connect(void)

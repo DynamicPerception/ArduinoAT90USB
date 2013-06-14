@@ -104,21 +104,28 @@ class HardwareSerial : public Stream
 #define SERIAL_7O2 0x3C
 #define SERIAL_8O2 0x3E
 
+    // Create correct Serial Devices based on 
+    // Available serial registers, and compile-time
+    // flags
+
 #if defined(UBRRH) || defined(UBRR0H)
   extern HardwareSerial Serial;
-#elif defined(USBCON)
-  #warning Loading USB Serial API
-  #include <USBSerialClass.h>
+#elif defined(USBCON) && defined(USE_USB_SERIAL)
+    #warning Loading USB Serial API
+    #include <USBSerialClass.h>
 #endif
+
 #if defined(UBRR1H)
-  extern HardwareSerial Serial1;
+    extern HardwareSerial Serial1;
 #endif
 #if defined(UBRR2H)
-  extern HardwareSerial Serial2;
+    extern HardwareSerial Serial2;
 #endif
 #if defined(UBRR3H)
-  extern HardwareSerial Serial3;
+    extern HardwareSerial Serial3;
 #endif
+
+
 
 extern void serialEventRun(void) __attribute__((weak));
 
