@@ -60,7 +60,7 @@ void USBSerial_::begin(long p_baud) {
 #if defined(USB_CAN_BE_BOTH)
     USB_Init(USB_MODE_UID, USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL);
 #else
-    USB_Init(void, USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL);
+    USB_Init(USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL);
 #endif
     
 
