@@ -49,13 +49,15 @@ void USBSerial_::begin(long p_baud) {
     
         // baud rate is ignored
 
+    cli();
+    
 #if defined(USB_CAN_BE_BOTH)
     USB_Init(USB_MODE_UID, USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL | USB_DEVICE_OPT_FULLSPEED);
 #else
     USB_Init(USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL);
 #endif
     
-    GlobalInterruptEnable();
+    sei();
     
 }
 
@@ -64,6 +66,8 @@ void USBSerial_::end() {
 }
 
 int USBSerial_::available() {
+    
+    _doTasks();
    
     int bytes = CDC_Device_BytesReceived(&VirtualSerial_CDC_Interface);
     
@@ -76,6 +80,8 @@ void USBSerial_::accept() {
 }
 
 int USBSerial_::peek() {
+    _doTasks();
+    
     if( available() > 0 ) {
         m_didPeek = 1;
         m_peek = CDC_Device_ReceiveByte(&VirtualSerial_CDC_Interface);
@@ -104,6 +110,7 @@ int USBSerial_::read() {
 
         if( available() > 0 ) {
             int val = CDC_Device_ReceiveByte(&VirtualSerial_CDC_Interface);
+            return val;
         }
     }
     
@@ -134,6 +141,7 @@ void USBSerial_::_doTasks() {
 
 
 void USBSerial_::flush() {
+    _doTasks();
     CDC_Device_Flush(&VirtualSerial_CDC_Interface);
 }
 
