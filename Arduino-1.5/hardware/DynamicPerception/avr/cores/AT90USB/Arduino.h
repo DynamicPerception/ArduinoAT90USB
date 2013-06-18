@@ -12,6 +12,7 @@
 #include "binary.h"
 
 
+
 #if defined(USBCON) 
     // replace 'Serial' with 'Serial1' for USBCON boards
     #define Serial Serial1

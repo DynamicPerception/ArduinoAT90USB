@@ -1,67 +1,68 @@
-#include "USBSerial.h"
+#include "USBSerialClass.h"
 
 
-
-   
-    USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface = {
-        // .Config =
+USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface = {
+    // .Config =
+    {
+         // .ControlInterfaceNumber   =  
+        0,
+        // .DataINEndpoint           = 
         {
-             // .ControlInterfaceNumber   =  
-            0,
-            // .DataINEndpoint           = 
-            {
-               // .Address          = 
-                CDC_TX_EPADDR,
-               // .Size             = 
-                CDC_TXRX_EPSIZE,
-               // .Banks            = 
-                1,
-            },
-            // .DataOUTEndpoint =
-            {
-                // .Address          = 
-                CDC_RX_EPADDR,
-                // .Size             = 
-                CDC_TXRX_EPSIZE,
-                // .Banks            = 
-                1,
-            },
-            // .NotificationEndpoint =
-            {
-                // .Address          = 
-                CDC_NOTIFICATION_EPADDR,
-                // .Size             = 
-                CDC_NOTIFICATION_EPSIZE,
-                // .Banks            = 
-                1,
-            },
+           // .Address          = 
+            CDC_TX_EPADDR,
+           // .Size             = 
+            CDC_TXRX_EPSIZE,
+           // .Banks            = 
+            1,
         },
-    };
+        // .DataOUTEndpoint =
+        {
+            // .Address          = 
+            CDC_RX_EPADDR,
+            // .Size             = 
+            CDC_TXRX_EPSIZE,
+            // .Banks            = 
+            1,
+        },
+        // .NotificationEndpoint =
+        {
+            // .Address          = 
+            CDC_NOTIFICATION_EPADDR,
+            // .Size             = 
+            CDC_NOTIFICATION_EPSIZE,
+            // .Banks            = 
+            1,
+        },
+    },
+};
+
 
 
 
 USBSerial_::USBSerial_() {
-    m_didPeek = 0;
-    m_peek    = 0;
-    
+    m_didPeek   = 0;
+    m_peek      = 0;    
 }
 
 void USBSerial_::begin(long p_baud) {
     
     /* Disable watchdog if enabled by bootloader/fuses */
-	MCUSR &= ~(1 << WDRF);
-	wdt_disable();
+	//MCUSR &= ~(1 << WDRF);
+	//wdt_disable();
     
 	/* Disable clock division */
-	clock_prescale_set(clock_div_1);
+	//clock_prescale_set(clock_div_1);
     
         // baud rate is ignored
+	cli();
 #if defined(USB_CAN_BE_BOTH)
-    USB_Init(USB_MODE_UID, USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL);
+    USB_Init(USB_MODE_UID, USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL | USB_DEVICE_OPT_FULLSPEED);
 #else
     USB_Init(USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL);
 #endif
-       
+    
+
+    sei();
     GlobalInterruptEnable();
     
     _doTasks();
@@ -148,16 +149,19 @@ void USBSerial_::flush() {
 
 
 USBSerial_::operator bool() {
-	_doTasks();
+	//_doTasks();
     
-    if (USB_DeviceState != DEVICE_STATE_Configured)
+    USB_USBTask();
+    
+    if (! m_lineState) 
         return false;
-                
+	
+	_delay_ms(10);   
     return true;
 }
 
 
-USBSerial_ USBSerial = USBSerial_();
+USBSerial_ USBSerial;
 
 /** Event handler for the library USB Connection event. */
 void EVENT_USB_Device_Connect(void) {
@@ -171,16 +175,22 @@ void EVENT_USB_Device_Disconnect(void) {
 
 /** Event handler for the library USB Configuration Changed event. */
 void EVENT_USB_Device_ConfigurationChanged(void) {
+    
 	bool ConfigSuccess = true;
     
 	ConfigSuccess &= CDC_Device_ConfigureEndpoints(&VirtualSerial_CDC_Interface);
 
-    
  }
 
 /** Event handler for the library USB Control Request reception event. */
 void EVENT_USB_Device_ControlRequest(void) {
-       	CDC_Device_ProcessControlRequest(&VirtualSerial_CDC_Interface);
+    CDC_Device_ProcessControlRequest(&VirtualSerial_CDC_Interface);
 }
 
+void EVENT_CDC_Device_ControLineStateChanged(USB_ClassInfo_CDC_Device_t * p_dev) {
+   m_lineState = (p_dev->State.ControlLineStates.HostToDevice & CDC_CONTROL_LINE_OUT_DTR);
+}
 
+void EVENT_CDC_Device_LineEncodingChanged(USB_ClassInfo_CDC_Device_t * p_dev){
+  
+}

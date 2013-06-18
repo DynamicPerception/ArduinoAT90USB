@@ -41,7 +41,9 @@
 
 #include <LUFA/Drivers/USB/USB.h>
 
-
+#if defined(__cplusplus)
+ extern "C" {
+#endif
 
 /* Macros: */
 /** Endpoint address of the CDC device-to-host notification IN endpoint. */
@@ -87,6 +89,9 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
                                     const void** const DescriptorAddress)
 ATTR_WARN_UNUSED_RESULT ATTR_NON_NULL_PTR_ARG(3);
 
+#if defined(__cplusplus)
+     }
+#endif
 
 #endif
 

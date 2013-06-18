@@ -36,12 +36,14 @@
  */
 
 #include "USBSerialDescriptors.h"
-#include "Arduino.h"
+//#include "Arduino.h"
 
 /* Enable C linkage for C++ Compilers: */
 #if defined(__cplusplus)
 extern "C" {
 #endif
+
+
 
 /** Device descriptor structure. This descriptor, located in FLASH memory, describes the overall
  *  device characteristics, including the supported USB version, control endpoint size and the
@@ -65,7 +67,8 @@ const USB_Descriptor_Device_t PROGMEM DeviceDescriptor =
     
 	.ManufacturerStrIndex   = 0x01,
 	.ProductStrIndex        = 0x02,
-	.SerialNumStrIndex      = USE_INTERNAL_SERIAL,
+	.SerialNumStrIndex      = 0x03,
+//	.SerialNumStrIndex      = USE_INTERNAL_SERIAL,
     
 	.NumberOfConfigurations = 1
 };
@@ -82,7 +85,7 @@ const USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor =
         .Header                 = {.Size = sizeof(USB_Descriptor_Configuration_Header_t), .Type = DTYPE_Configuration},
         
         .TotalConfigurationSize = sizeof(USB_Descriptor_Configuration_t),
-        .TotalInterfaces        = 2,
+        .TotalInterfaces        = 1,
         
         .ConfigurationNumber    = 1,
         .ConfigurationStrIndex  = NO_DESCRIPTOR,
@@ -197,9 +200,9 @@ const USB_Descriptor_String_t PROGMEM LanguageString =
  */
 const USB_Descriptor_String_t PROGMEM ManufacturerString =
 {
-	.Header                 = {.Size = USB_STRING_LEN(11), .Type = DTYPE_String},
-    
-	.UnicodeString          = L"Dean Camera"
+	.Header                 = {.Size = USB_STRING_LEN(22), .Type = DTYPE_String},
+		
+	.UnicodeString          = L"Dynamic Perception LLC"
 };
 
 /** Product descriptor string. This is a Unicode string containing the product's details in human readable form,
@@ -208,9 +211,25 @@ const USB_Descriptor_String_t PROGMEM ManufacturerString =
  */
 const USB_Descriptor_String_t PROGMEM ProductString =
 {
-	.Header                 = {.Size = USB_STRING_LEN(13), .Type = DTYPE_String},
-    
-	.UnicodeString          = L"LUFA CDC Demo"
+	.Header                 = {.Size = USB_STRING_LEN(29), .Type = DTYPE_String},
+		
+	.UnicodeString          = L"Dynamic Perception CDC Serial"
+};
+
+const USB_Descriptor_String_t PROGMEM SerialString =
+{
+	.Header                 = {.Size = USB_STRING_LEN(6), .Type = DTYPE_String},
+#if defined(__AVR_ATmega32U4__)
+	.UnicodeString          = L"004572"
+#elif defined(__AVR_ATmega32U2__)
+	.UnicodeString          = L"004571"
+#elif defined(__AVR_AT90USB646__)
+        .UnicodeString          = L"004574"
+#elif defined(__AVR_AT90USB1286__)
+        .UnicodeString          = L"004575"
+#else
+	.UnicodeString          = L"004573"
+#endif
 };
 
 /** This function is called by the library when in device mode, and must be overridden (see library "USB Descriptors"
@@ -224,8 +243,6 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
                                     const void** const DescriptorAddress)
 {
     
-    digitalWrite(22, HIGH);
-
     
 	const uint8_t  DescriptorType   = (wValue >> 8);
 	const uint8_t  DescriptorNumber = (wValue & 0xFF);
@@ -258,11 +275,14 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
                 Address = &ProductString;
                 Size    = pgm_read_byte(&ProductString.Header.Size);
                 break;
+			case 0x03:
+				Address = &SerialString;
+				Size    = pgm_read_byte(&SerialString.Header.Size);
+				break;
         }
             
 			break;
 	}
-    
     
 	*DescriptorAddress = Address;
 	return Size;
