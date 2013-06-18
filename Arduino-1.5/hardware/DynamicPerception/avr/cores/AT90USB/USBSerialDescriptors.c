@@ -38,6 +38,8 @@
 #include "USBSerialDescriptors.h"
 //#include "Arduino.h"
 
+#if defined(USE_USB_SERIAL)
+
 /* Enable C linkage for C++ Compilers: */
 #if defined(__cplusplus)
 extern "C" {
@@ -85,7 +87,7 @@ const USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor =
         .Header                 = {.Size = sizeof(USB_Descriptor_Configuration_Header_t), .Type = DTYPE_Configuration},
         
         .TotalConfigurationSize = sizeof(USB_Descriptor_Configuration_t),
-        .TotalInterfaces        = 1,
+        .TotalInterfaces        = 2,
         
         .ConfigurationNumber    = 1,
         .ConfigurationStrIndex  = NO_DESCRIPTOR,
@@ -293,4 +295,5 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
 }
 #endif
 
+#endif
 

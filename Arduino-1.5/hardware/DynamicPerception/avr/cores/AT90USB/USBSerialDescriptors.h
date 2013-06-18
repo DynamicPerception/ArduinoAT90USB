@@ -41,6 +41,8 @@
 
 #include <LUFA/Drivers/USB/USB.h>
 
+#if defined(USE_USB_SERIAL)
+
 #if defined(__cplusplus)
  extern "C" {
 #endif
@@ -91,6 +93,8 @@ ATTR_WARN_UNUSED_RESULT ATTR_NON_NULL_PTR_ARG(3);
 
 #if defined(__cplusplus)
      }
+#endif
+
 #endif
 
 #endif

@@ -1,5 +1,6 @@
 #include "USBSerialClass.h"
 
+#if defined(USE_USB_SERIAL)
 
 USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface = {
     // .Config =
@@ -36,7 +37,7 @@ USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface = {
     },
 };
 
-
+#endif
 
 
 USBSerial_::USBSerial_() {
@@ -46,27 +47,16 @@ USBSerial_::USBSerial_() {
 
 void USBSerial_::begin(long p_baud) {
     
-    /* Disable watchdog if enabled by bootloader/fuses */
-	//MCUSR &= ~(1 << WDRF);
-	//wdt_disable();
-    
-	/* Disable clock division */
-	//clock_prescale_set(clock_div_1);
-    
         // baud rate is ignored
-	cli();
+
 #if defined(USB_CAN_BE_BOTH)
     USB_Init(USB_MODE_UID, USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL | USB_DEVICE_OPT_FULLSPEED);
 #else
     USB_Init(USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL);
 #endif
     
-
-    sei();
     GlobalInterruptEnable();
     
-    _doTasks();
-
 }
 
 void USBSerial_::end() {
@@ -163,6 +153,8 @@ USBSerial_::operator bool() {
 
 USBSerial_ USBSerial;
 
+#if defined(USE_USB_SERIAL)
+
 /** Event handler for the library USB Connection event. */
 void EVENT_USB_Device_Connect(void) {
 	
@@ -194,3 +186,6 @@ void EVENT_CDC_Device_ControLineStateChanged(USB_ClassInfo_CDC_Device_t * p_dev)
 void EVENT_CDC_Device_LineEncodingChanged(USB_ClassInfo_CDC_Device_t * p_dev){
   
 }
+
+#endif
+
