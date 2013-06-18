@@ -14,7 +14,7 @@ You must be using a version of Arduino greater than 1.5.2 to use this package.  
 Installation Instructions (Arduino > 1.5.2)
 -------------------------
 
-1. Copy the contents of the Arduino-1.5/hardware directory into the hardware/ directory inside of the Arduino application folder
+1. Copy the contents of the bundled 'hardware' directory into the 'hardware/' directory inside of the Arduino application folder
 2. Re-start Arduino if already running
 3. Select correct board type
 
