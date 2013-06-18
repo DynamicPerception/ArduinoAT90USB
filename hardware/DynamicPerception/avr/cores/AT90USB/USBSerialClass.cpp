@@ -37,7 +37,6 @@ USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface = {
     },
 };
 
-#endif
 
 
 USBSerial_::USBSerial_() {
@@ -161,7 +160,7 @@ USBSerial_::operator bool() {
 
 USBSerial_ USBSerial;
 
-#if defined(USE_USB_SERIAL)
+
 
 /** Event handler for the library USB Connection event. */
 void EVENT_USB_Device_Connect(void) {

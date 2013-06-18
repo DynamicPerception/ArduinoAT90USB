@@ -31,14 +31,15 @@
 #include <Stream.h>
 #include <Print.h>
 
+#if defined(USE_USB_SERIAL)
+
+
 #include <LUFA/Drivers/USB/USB.h>
 #include "USBSerialDescriptors.h"
 
-#if defined(USE_USB_SERIAL)
 
 extern USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface;    
 
-#endif
 
 volatile static uint8_t m_lineState = 0;
 
@@ -69,7 +70,6 @@ extern USBSerial_ USBSerial;
 
 // C functions from LUFA
 
-#if defined(USE_USB_SERIAL)
     
 void EVENT_USB_Device_Connect(void);
 void EVENT_USB_Device_Disconnect(void);
