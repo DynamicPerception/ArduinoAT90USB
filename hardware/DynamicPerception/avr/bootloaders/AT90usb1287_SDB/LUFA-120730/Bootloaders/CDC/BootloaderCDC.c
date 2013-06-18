@@ -52,8 +52,6 @@ static uint32_t CurrAddress;
 
 /*Counter for the backlight pulseing*/
 
-static uint16_t Pulse;
-
 static uint16_t finished = 0;
 
 /** Main program entry point. This routine configures the hardware required by the bootloader, then continuously
@@ -75,9 +73,6 @@ int main(void)
 		/* Set the LCD backlight as an output */
 		DDRC = _BV(PC6);	
 		
-		/* Disable clock division */
-		clock_prescale_set(clock_div_1);
-
 		/* Relocate the interrupt vector table to the bootloader section */
 		MCUCR = (1 << IVCE);
 		MCUCR = (1 << IVSEL);
@@ -115,20 +110,11 @@ int main(void)
 
 void BL_Pulse(void)
 {
+	static uint16_t Pulse = 0;
 	Pulse++;
-	uint8_t p = Pulse >> 8;
-	if (p > 127)
+	if (!Pulse)
 	{
-		p = 254-p;
-	}
-	p += p;
-	if (((uint8_t)Pulse) > p)
-	{
-		PORTC &= ~_BV(PC6);
-	}
-	else
-	{
-		PORTC |= _BV(PC6);
+		PORTC = PORTC ^ _BV(PC6);
 	}
 }
 
