@@ -48,16 +48,16 @@ USBSerial_::USBSerial_() {
 void USBSerial_::begin(long p_baud) {
     
         // baud rate is ignored
+        
+    cli();	//Disable interrupts
 
-    cli();
-    
 #if defined(USB_CAN_BE_BOTH)
     USB_Init(USB_MODE_UID, USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL | USB_DEVICE_OPT_FULLSPEED);
 #else
     USB_Init(USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL);
 #endif
     
-    sei();
+    sei();	//Enable interrupts
     
 }
 
