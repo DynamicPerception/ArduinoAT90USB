@@ -34,18 +34,25 @@ To enable the USB Serial Device, select the correct board type followed by 'USB 
     void setup() {
     	USBSerial.begin(9600); // baud is ignored, but required
 	
-	lcd.begin(LCD_COLS, LCD_ROWS);
+    	lcd.begin(LCD_COLS, LCD_ROWS);
 
-	lcd.print("Waiting...");
+    	lcd.print("Waiting...");
 
-	while( ! USBSerial ) {
-		; // do nothing
-	}
+    	while( ! USBSerial ) {
+    		; // do nothing
+    	}
 
-	lcd.clear();
+    	lcd.clear();
 
-	lcd.print("Connected!");
+    	lcd.print("Connected!");
     }
+
+Bootloader
+----------
+
+This bundle comes with a specialized bootloader for the 646, 647, 1286, 1287, and the AT90USBKEY.  The bootloader is based on Dean Camera's LUFA CDC bootloader, but has been modified to perform its requirements and fit into a 4K bootloader area, reducing the total bootloader requirement and freeing up 4K of flash memory. You'll find the source, and pre-compiled hex images in the hadrware/DynamicPerception/avr/bootloaders/ directory. 
+
+Please note that at this time, burning bootloaders via the Arduino IDE is not supported.
 
 
 	
