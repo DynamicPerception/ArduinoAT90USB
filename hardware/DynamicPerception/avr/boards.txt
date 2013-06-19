@@ -1,7 +1,7 @@
 
 ##############################################################
 
-AT90usb128716.name=AT90USB128x 16MHz
+AT90usb128716.name=AT90USB1287 16MHz MX3
 AT90usb128716.upload.protocol=avr109
 AT90usb128716.upload.maximum_size=130048
 AT90usb128716.upload.speed=57600
@@ -10,8 +10,8 @@ AT90usb128716.upload.disable_flushing=true
 AT90usb128716.bootloader.low_fuses=0xff
 AT90usb128716.bootloader.high_fuses=0xda
 AT90usb128716.bootloader.extended_fuses=0xf9
-AT90usb128716.bootloader.path=AT90usb1287_SDB
-AT90usb128716.bootloader.file=AT90usb1287_SDB.hex
+AT90usb128716.bootloader.path=AT90usb1287
+AT90usb128716.bootloader.file=AT90usb1287_MX3.hex
 AT90usb128716.bootloader.unlock_bits=0x3F
 AT90usb128716.bootloader.lock_bits=0x2F
 AT90usb128716.build.mcu=at90usb1287
@@ -25,7 +25,7 @@ AT90usb128716.build.extra_flags=-DARCH=ARCH_AVR8 -DUSE_FLASH_DESCRIPTORS -DF_USB
 
 ##############################################################
 
-AT90usb128716U.name=AT90USB128x 16MHz USB Serial
+AT90usb128716U.name=AT90USB1287 16MHz MX3 USB Serial
 AT90usb128716U.upload.protocol=avr109
 AT90usb128716U.upload.maximum_size=130048
 AT90usb128716U.upload.speed=57600
@@ -34,8 +34,8 @@ AT90usb128716U.upload.disable_flushing=true
 AT90usb128716U.bootloader.low_fuses=0xff
 AT90usb128716U.bootloader.high_fuses=0xda
 AT90usb128716U.bootloader.extended_fuses=0xf9
-AT90usb128716U.bootloader.path=AT90usb1287_SDB
-AT90usb128716U.bootloader.file=AT90usb1287_SDB.hex
+AT90usb128716U.bootloader.path=AT90usb1287
+AT90usb128716U.bootloader.file=AT90usb1287_MX3.hex
 AT90usb128716U.bootloader.unlock_bits=0x3F
 AT90usb128716U.bootloader.lock_bits=0x2F
 AT90usb128716U.build.mcu=at90usb1287
@@ -49,51 +49,51 @@ AT90usb128716U.build.extra_flags=-DARCH=ARCH_AVR8 -DUSE_FLASH_DESCRIPTORS -DF_US
 
 ##############################################################
 
-AT90usb64616.name=AT90USB64x 16MHz
-AT90usb64616.upload.protocol=avr109
-AT90usb64616.upload.maximum_size=61664
-AT90usb64616.upload.speed=57600
-AT90usb64616.upload.tool=avrdude
-AT90usb64616.upload.disable_flushing=true
-AT90usb64616.bootloader.low_fuses=0xff
-AT90usb64616.bootloader.high_fuses=0xda
-AT90usb64616.bootloader.extended_fuses=0xf9
-AT90usb64616.bootloader.path=AT90usb646_SDB
-AT90usb64616.bootloader.file=AT90usb646_SDB.hex
-AT90usb64616.bootloader.unlock_bits=0x3F
-AT90usb64616.bootloader.lock_bits=0x2F
-AT90usb64616.build.mcu=at90usb646
-AT90usb64616.build.f_cpu=16000000L
-AT90usb64616.build.f_usb=16000000L
-AT90usb64616.build.vid=0x2341
-AT90usb64616.build.pid=0x8036
-AT90usb64616.build.core=AT90USB
-AT90usb64616.build.variant=at90usb64X
-AT90usb64616.build.extra_flags=-DARCH=ARCH_AVR8 -DUSE_FLASH_DESCRIPTORS -DF_USB={build.f_usb}
+AT90usb128716MoCoDev.name=AT90USB1287 16MHz MoCo Dev 
+AT90usb128716MoCoDev.upload.protocol=avr109
+AT90usb128716MoCoDev.upload.maximum_size=130048
+AT90usb128716MoCoDev.upload.speed=57600
+AT90usb128716MoCoDev.upload.tool=avrdude
+AT90usb128716MoCoDev.upload.disable_flushing=true
+AT90usb128716MoCoDev.bootloader.low_fuses=0xff
+AT90usb128716MoCoDev.bootloader.high_fuses=0xda
+AT90usb128716MoCoDev.bootloader.extended_fuses=0xf9
+AT90usb128716MoCoDev.bootloader.path=AT90usb1287
+AT90usb128716MoCoDev.bootloader.file=AT90usb1287_MoCo_Dev.hex
+AT90usb128716MoCoDev.bootloader.unlock_bits=0x3F
+AT90usb128716MoCoDev.bootloader.lock_bits=0x2F
+AT90usb128716MoCoDev.build.mcu=at90usb1287
+AT90usb128716MoCoDev.build.f_cpu=16000000L
+AT90usb128716MoCoDev.build.f_usb=16000000L
+AT90usb128716MoCoDev.build.vid=0x2341
+AT90usb128716MoCoDev.build.pid=0x8036
+AT90usb128716MoCoDev.build.core=AT90USB
+AT90usb128716MoCoDev.build.variant=at90usb128X
+AT90usb128716MoCoDev.build.extra_flags=-DARCH=ARCH_AVR8 -DUSE_FLASH_DESCRIPTORS -DF_USB={build.f_usb} -DBOARD=NONE
 
 ##############################################################
 
-AT90usb64616U.name=AT90USB64x 16MHz USB Serial
-AT90usb64616U.upload.protocol=avr109
-AT90usb64616U.upload.maximum_size=61664
-AT90usb64616U.upload.speed=57600
-AT90usb64616U.upload.tool=avrdude
-AT90usb64616U.upload.disable_flushing=true
-AT90usb64616U.bootloader.low_fuses=0xff
-AT90usb64616U.bootloader.high_fuses=0xda
-AT90usb64616U.bootloader.extended_fuses=0xf9
-AT90usb64616U.bootloader.path=AT90usb646_SDB
-AT90usb64616U.bootloader.file=AT90usb646_SDB.hex
-AT90usb64616U.bootloader.unlock_bits=0x3F
-AT90usb64616U.bootloader.lock_bits=0x2F
-AT90usb64616U.build.mcu=at90usb646
-AT90usb64616U.build.f_cpu=16000000L
-AT90usb64616U.build.f_usb=16000000L
-AT90usb64616U.build.vid=0x2341
-AT90usb64616U.build.pid=0x8036
-AT90usb64616U.build.core=AT90USB
-AT90usb64616U.build.variant=at90usb64X
-AT90usb64616U.build.extra_flags=-DARCH=ARCH_AVR8 -DUSE_FLASH_DESCRIPTORS -DF_USB={build.f_usb} -DUSE_USB_SERIAL -DBOARD=NONE
+AT90usb128716MoCoDevU.name=AT90USB1287 16MHz MoCo Dev USB Serial 
+AT90usb128716MoCoDevU.upload.protocol=avr109
+AT90usb128716MoCoDevU.upload.maximum_size=130048
+AT90usb128716MoCoDevU.upload.speed=57600
+AT90usb128716MoCoDevU.upload.tool=avrdude
+AT90usb128716MoCoDevU.upload.disable_flushing=true
+AT90usb128716MoCoDevU.bootloader.low_fuses=0xff
+AT90usb128716MoCoDevU.bootloader.high_fuses=0xda
+AT90usb128716MoCoDevU.bootloader.extended_fuses=0xf9
+AT90usb128716MoCoDevU.bootloader.path=AT90usb1287
+AT90usb128716MoCoDevU.bootloader.file=AT90usb1287_MoCo_Dev.hex
+AT90usb128716MoCoDevU.bootloader.unlock_bits=0x3F
+AT90usb128716MoCoDevU.bootloader.lock_bits=0x2F
+AT90usb128716MoCoDevU.build.mcu=at90usb1287
+AT90usb128716MoCoDevU.build.f_cpu=16000000L
+AT90usb128716MoCoDevU.build.f_usb=16000000L
+AT90usb128716MoCoDevU.build.vid=0x2341
+AT90usb128716MoCoDevU.build.pid=0x8036
+AT90usb128716MoCoDevU.build.core=AT90USB
+AT90usb128716MoCoDevU.build.variant=at90usb128X
+AT90usb128716MoCoDevU.build.extra_flags=-DARCH=ARCH_AVR8 -DUSE_FLASH_DESCRIPTORS -DF_USB={build.f_usb} -DUSE_USB_SERIAL -DBOARD=NONE
 
 ##############################################################
 
@@ -105,8 +105,8 @@ AT90usb128716USBKey.upload.tool=avrdude
 AT90usb128716USBKey.upload.disable_flushing=true
 AT90usb128716USBKey.bootloader.low_fuses=0xff
 AT90usb128716USBKey.bootloader.high_fuses=0xda
-AT90usb128716USBKey.bootloader.extended_fuses=0xfc
-AT90usb128716USBKey.bootloader.path=AT90usb1287_USBKey
+AT90usb128716USBKey.bootloader.extended_fuses=0xf9
+AT90usb128716USBKey.bootloader.path=AT90usb1287
 AT90usb128716USBKey.bootloader.file=AT90usb1287_USBKey.hex
 AT90usb128716USBKey.bootloader.unlock_bits=0x3F
 AT90usb128716USBKey.bootloader.lock_bits=0x2F
@@ -117,6 +117,28 @@ AT90usb128716USBKey.build.vid=0x2341
 AT90usb128716USBKey.build.pid=0x8036
 AT90usb128716USBKey.build.core=AT90USB
 AT90usb128716USBKey.build.variant=at90usb128X
-AT90usb128716USBKey.build.extra_flags=-DARCH=ARCH_AVR8 -DUSE_FLASH_DESCRIPTORS -DF_USB={build.f_usb}
+AT90usb128716USBKey.build.extra_flags=-DARCH=ARCH_AVR8 -DUSE_FLASH_DESCRIPTORS -DF_USB={build.f_usb} -DBOARD=NONE
 
 ##############################################################
+
+AT90usb128716USBKeyU.name=AT90USB1287 USBKey 16MHz
+AT90usb128716USBKeyU.upload.protocol=avr109
+AT90usb128716USBKeyU.upload.maximum_size=130048
+AT90usb128716USBKeyU.upload.speed=57600
+AT90usb128716USBKeyU.upload.tool=avrdude
+AT90usb128716USBKeyU.upload.disable_flushing=true
+AT90usb128716USBKeyU.bootloader.low_fuses=0xff
+AT90usb128716USBKeyU.bootloader.high_fuses=0xda
+AT90usb128716USBKeyU.bootloader.extended_fuses=0xf9
+AT90usb128716USBKeyU.bootloader.path=AT90usb1287
+AT90usb128716USBKeyU.bootloader.file=AT90usb1287_USBKey.hex
+AT90usb128716USBKeyU.bootloader.unlock_bits=0x3F
+AT90usb128716USBKeyU.bootloader.lock_bits=0x2F
+AT90usb128716USBKeyU.build.mcu=at90usb1287
+AT90usb128716USBKeyU.build.f_cpu=16000000L
+AT90usb128716USBKeyU.build.f_usb=16000000L
+AT90usb128716USBKeyU.build.vid=0x2341
+AT90usb128716USBKeyU.build.pid=0x8036
+AT90usb128716USBKeyU.build.core=AT90USB
+AT90usb128716USBKeyU.build.variant=at90usb128X
+AT90usb128716USBKeyU.build.extra_flags=-DARCH=ARCH_AVR8 -DUSE_FLASH_DESCRIPTORS -DF_USB={build.f_usb} -DUSE_USB_SERIAL -DBOARD=NONE
