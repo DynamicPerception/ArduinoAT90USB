@@ -9,7 +9,7 @@
 #         LUFA Project Makefile.
 # --------------------------------------
 
-MCU          = at90usb1287
+MCU          = at90usb646
 ARCH         = AVR8
 BOARD        = NONE
 F_CPU        = 16000000
@@ -25,7 +25,7 @@ LD_FLAGS     = -Wl,--section-start=.text=$(BOOT_START_OFFSET) $(BOOT_API_LD_FLAG
 # Flash size and bootloader section sizes of the target, in KB. These must
 # match the target's total FLASH size and the bootloader size set in the
 # device's fuses.
-FLASH_SIZE_KB         = 128
+FLASH_SIZE_KB         = 64
 BOOT_SECTION_SIZE_KB  = 4
 
 # Bootloader address calculation formulas (requires the "bc" unix utility)
@@ -43,17 +43,9 @@ BOOT_API_LD_FLAGS    += $(call BOOT_SECTION_LD_FLAG, signatures,  Signatures,  8
 # Default target
 all:
 
-#MX3 target
-MX3: CC_FLAGS += -DBOARD_MX3
-MX3: $(PROGRAM)AT90usb1287_MX3.hex
-
-#MoCo Dev Board target
-MOCO_DEV: CC_FLAGS += -DBOARD_MOCO_DEV
-MOCO_DEV: $(PROGRAM)AT90usb1287_MoCo_Dev.hex 
-
-#USBKey target
-USBKEY: CC_FLAGS += -DBUSBKEY
-USBKEY: $(PROGRAM)AT90usb1287_USBKey.hex 
+#Default target
+DEFAULT: CC_FLAGS += -DBOARD_default
+DEFAULT: $(PROGRAM)AT90usb64X_default.hex
 
 # Include LUFA build script makefiles
 include $(LUFA_BUILD)/Build/lufa_core.mk

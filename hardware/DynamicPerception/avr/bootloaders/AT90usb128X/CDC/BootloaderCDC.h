@@ -83,7 +83,7 @@
 			static uint8_t FetchNextCommandByte(void);
 			static void    WriteNextResponseByte(const uint8_t Response);
 		#endif
-		
+
 	/* Defintions for each board*/
 	#if defined(BOARD_MX3)
 		#define BUTTON_DIR_PORT		DDRF
