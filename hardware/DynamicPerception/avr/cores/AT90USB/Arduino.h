@@ -11,7 +11,9 @@
 
 #include "binary.h"
 
-
+#ifdef __cplusplus
+extern "C"{
+#endif
 
 #if defined(USBCON) 
     // replace 'Serial' with 'Serial1' for USBCON boards
@@ -19,21 +21,20 @@
 #endif
 
 #if defined(USB_CAN_BE_DEVICE)
-	#warning This Unit Can Be a USB Device
+        #warning This Unit Can Be a USB Device
 #endif
 
 
 #if defined(USB_CAN_BE_HOST)
-	#warning This Unit Can Be a USB Host
+        #warning This Unit Can Be a USB Host
 #endif
 
 #if defined(USB_CAN_BE_BOTH)
-	#warning This Unit Can Be Both a USB Host and Device
+        #warning This Unit Can Be Both a USB Host and Device
 #endif
 
-#ifdef __cplusplus
-extern "C"{
-#endif
+
+void yield(void);
 
 #define HIGH 0x1
 #define LOW  0x0
@@ -61,9 +62,20 @@ extern "C"{
 #define FALLING 2
 #define RISING 3
 
+#if defined(__AVR_ATtiny24__) || defined(__AVR_ATtiny44__) || defined(__AVR_ATtiny84__) || defined(__AVR_ATtiny25__) || defined(__AVR_ATtiny45__) || defined(__AVR_ATtiny85__)
+#define DEFAULT 0
+#define EXTERNAL 1
+#define INTERNAL 2
+#else  
+#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1284__) || defined(__AVR_ATmega1284P__) || defined(__AVR_ATmega644__) || defined(__AVR_ATmega644A__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega644PA__)
+#define INTERNAL1V1 2
+#define INTERNAL2V56 3
+#else
 #define INTERNAL 3
+#endif
 #define DEFAULT 1
 #define EXTERNAL 0
+#endif
 
 // undefine stdlib's abs if encountered
 #ifdef abs
@@ -177,21 +189,20 @@ extern const uint8_t PROGMEM digital_pin_to_timer_PGM[];
 #define TIMER0B 2
 #define TIMER1A 3
 #define TIMER1B 4
-#define TIMER1C 5
-#define TIMER2  6
-#define TIMER2A 7
-#define TIMER2B 8
+#define TIMER2  5
+#define TIMER2A 6
+#define TIMER2B 7
 
-#define TIMER3A 9
-#define TIMER3B 10
-#define TIMER3C 11
-#define TIMER4A 12
-#define TIMER4B 13
-#define TIMER4C 14
-#define TIMER4D 15	
-#define TIMER5A 16
-#define TIMER5B 17
-#define TIMER5C 18
+#define TIMER3A 8
+#define TIMER3B 9
+#define TIMER3C 10
+#define TIMER4A 11
+#define TIMER4B 12
+#define TIMER4C 13
+#define TIMER4D 14	
+#define TIMER5A 15
+#define TIMER5B 16
+#define TIMER5C 17
 
 #ifdef __cplusplus
 } // extern "C"

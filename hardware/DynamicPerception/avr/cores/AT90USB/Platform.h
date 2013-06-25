@@ -14,5 +14,4 @@ typedef unsigned long u32;
 
 #include "Arduino.h"
 
-
 #endif

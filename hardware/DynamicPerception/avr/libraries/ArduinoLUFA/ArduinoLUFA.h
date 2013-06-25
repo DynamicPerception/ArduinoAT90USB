@@ -73,7 +73,9 @@ enum LUFAErr {
     /** Error Transmitting Byte */
     ERROR_XMIT,
     /** Error Receiving Byte */
-    ERROR_RECV
+    ERROR_RECV,
+    /** Not Supported */
+    ERROR_SUPPORTED
 };
 
 /** Common Status Codes */
@@ -117,7 +119,7 @@ public:
     void status(LUFAStat p_stat);
     LUFAStat status();
     
-    static void init();
+    virtual void init();
     
 private:
     
@@ -126,5 +128,7 @@ private:
   
 
 };
+
+uint32_t pgm_read_u32(const void* p_addr);
 
 #endif // _ARDUINOLUFA_H_

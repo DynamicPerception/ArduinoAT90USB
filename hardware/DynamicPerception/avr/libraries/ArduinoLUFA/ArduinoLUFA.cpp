@@ -76,7 +76,7 @@ LUFAStat ArduinoLUFA::status() {
  is set to USB_MODE_UID, and otherwise the options are always
  set to USB_OPT_REG_DISABLED | USB_OPT_AUTO_PLL
  
- This method is static, and can be called without an associated object.
+ Derived classes may override this method.
  
  This method only needs to be called once, during the setup of your sketch.
  
@@ -84,11 +84,15 @@ LUFAStat ArduinoLUFA::status() {
 
 void ArduinoLUFA::init() {
     
+    cli();
+    
 #if defined(USB_CAN_BE_BOTH)
     USB_Init(USB_MODE_UID, USB_OPT_REG_DISABLED | USB_OPT_AUTO_PLL);
 #else
     USB_Init(void, USB_OPT_REG_DISABLED | USB_OPT_AUTO_PLL);
 #endif
+    
+    sei();
 }
 
 
@@ -98,3 +102,21 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue, const uint8_t wIndex,
     return 0;
 }
 #endif
+
+
+/** Read a 32-bit Value From PGMSpace */
+
+uint32_t pgm_read_u32(const void* p_addr) {
+	uint32_t val;
+	uint8_t i;
+	uint8_t *p, *c;
+	p = (uint8_t*)&val;
+	c = (uint8_t*)p_addr;
+	for(i = 0; i < sizeof(uint32_t); i++)
+	{
+		p[i] = pgm_read_byte(c);
+		c++;
+	}
+	return val;
+}
+

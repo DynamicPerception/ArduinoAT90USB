@@ -89,9 +89,9 @@
     #error The current board does not support host mode
 #endif
 
-extern "C" {
-    extern USB_ClassInfo_HID_Host_t Keyboard_HID_Interface;
-}
+
+extern USB_ClassInfo_HID_Host_t Keyboard_HID_Interface;
+
 
     /** Supported Key Mappings Enum 
      
@@ -220,11 +220,14 @@ struct KeysPressed {
  Example of Using this Library in an Arduino Sketch:
  
  @code
+    // note that we must always include ArduinoLUFA.h, due to linking
+    // issues with the Arduino compile process
  #include "ArduinoLUFA.h"
+ 
  #include "KeyboardHost.h"
  
  void setup() {
-    ArduinoLUFA::init();
+    KeyHost.init();
  }
  
  void loop() {
@@ -308,7 +311,6 @@ extern KeyboardHost KeyHost;
     void EVENT_USB_Host_DeviceUnattached(void);
     void EVENT_USB_Host_DeviceEnumerationFailed(const uint8_t p_err, const uint8_t p_suberr);
     void EVENT_USB_Host_DeviceEnumerationComplete(void);
-    bool CALLBACK_HIDParser_FilterHIDReportItem(HID_ReportItem_t* const p_item); 
 
 #endif // _KEYBOARDHOST_H_
 

@@ -17,8 +17,6 @@
  *  within a device can be differentiated from one another.
  */
 
-extern "C" {
-
     USB_ClassInfo_HID_Host_t Keyboard_HID_Interface = {
         /* .Config = */ {
             /* .DataINPipe             = */ {
@@ -33,7 +31,7 @@ extern "C" {
         },
     };
     
-}
+
 
 
 const unsigned char KeyboardHost::m_usKeyMap[][2] = {
@@ -280,7 +278,7 @@ void KeyboardHost::_mapKey(uint8_t p_key, uint8_t p_mod, KeyDesc& p_desc) {
 }
 
     // create an object, we'll need it below
-KeyboardHost KeyHost = KeyboardHost();
+KeyboardHost KeyHost;
 
 
 /** Event handler for the USB_DeviceAttached event. This indicates that a device has been attached to the host, and
@@ -350,23 +348,6 @@ void EVENT_USB_Host_HostError(const uint8_t p_err) {
 void EVENT_USB_Host_DeviceEnumerationFailed(const uint8_t p_err, const uint8_t p_suberr) {
     KeyHost.status(STAT_ERROR);
     KeyHost.error(ERROR_HARD);
-}
-
-/** Callback for the HID Report Parser. This function is called each time the HID report parser is about to store
- *  an IN, OUT or FEATURE item into the HIDReportInfo structure. To save on RAM, we are able to filter out items
- *  we aren't interested in (preventing us from being able to extract them later on, but saving on the RAM they would
- *  have occupied).
- *
- *  \param[in] CurrentItem  Pointer to the item the HID report parser is currently working with
- *
- *  \return Boolean true if the item should be stored into the HID report structure, false if it should be discarded
- */
-bool CALLBACK_HIDParser_FilterHIDReportItem(HID_ReportItem_t* const p_item) {
-	/* Check the attributes of the current item - see if we are interested in it or not;
-	 * only store KEYBOARD usage page items into the Processed HID Report structure to
-	 * save RAM and ignore the rest
-	 */
-	return (p_item->Attributes.Usage.Page == USAGE_PAGE_KEYBOARD);
 }
 
 
