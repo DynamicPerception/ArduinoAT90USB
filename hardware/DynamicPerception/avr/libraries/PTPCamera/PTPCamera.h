@@ -134,6 +134,19 @@ private:
         bool focus;
         bool video;
         bool ready;
+        
+        // default constructor
+        
+        camProps_t() {
+            capture  = false;
+            bulb     = false;
+            iso      = false;
+            shutter  = false;
+            aperture = false;
+            focus    = false;
+            video    = false;
+            ready    = false;
+        }
     };
 
     
@@ -166,9 +179,9 @@ private:
     bool m_recStart;
     bool m_ptpUpdate;
     
-           PTPVendor      m_vendor;
-    static camProps_t     m_props;
-           capabilities_t m_capabilities;
+    PTPVendor      m_vendor;
+    camProps_t     m_props;
+    capabilities_t m_capabilities;
     
     static const propertyDescription_t m_isoList[];
     static const propertyDescription_t m_apertureList[];

@@ -47,7 +47,7 @@ AT90usb128716U.build.vid=0x2341
 AT90usb128716U.build.pid=0x8036
 AT90usb128716U.build.core=AT90USB
 AT90usb128716U.build.variant=at90usb128X
-AT90usb128716U.build.extra_flags=-DARCH=ARCH_AVR8 -DUSE_FLASH_DESCRIPTORS -DF_USB={build.f_usb} -DUSE_USB_SERIAL -DBOARD=NONE
+AT90usb128716U.build.extra_flags=-DARCH=ARCH_AVR8 -DUSE_FLASH_DESCRIPTORS -DF_USB={build.f_usb} -DUSE_USB_SERIAL -DBOARD=NONE -DUSB_VID={build.vid} -DUSB_PID={build.pid}
 
 
 ##############################################################

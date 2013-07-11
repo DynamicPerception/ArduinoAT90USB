@@ -40,9 +40,6 @@ uint32_t PTP_CameraVendor;
 uint16_t* PTP_Ops;
 
 
-PTPCamera::camProps_t PTPCamera::m_props    = { false, false, false, false, false, false, false, false };
-
-
 const PTPCamera::propertyDescription_t PTPCamera::m_apertureList[] PROGMEM = {
     {"  Error", 0xFF, 0xFF, 255 },
     {"  f/1.2", 0x0d, 120, 2 },
@@ -1251,7 +1248,7 @@ bool PTPCamera::_getPropertyInfo(uint16_t p_prop_code, uint8_t p_expected_size, 
             case 5: // INT32
             case 6: // UINT32
             {
-                for (uint16_t idx = 0 ; idx < enum_count ; idx++) {
+                for (uint16_t idx = 0 ; idx < enum_count ; idx++)   {
                     memcpy(&p_list[idx * sizeof(uint32_t)], &PTP_Buffer[index], sizeof(uint32_t));
                     index += sizeof(uint32_t);
                 }
