@@ -44,35 +44,10 @@
 
 #include "HardwareSerial.h"
 
-/*
- * on ATmega8, the uart and its bits are not numbered, so there is no "TXC0"
- * definition.
- */
-#if !defined(TXC0)
-#if defined(TXC)
-#define TXC0 TXC
-#elif defined(TXC1)
-// Some devices have uart1 but no uart0
-#define TXC0 TXC1
-#else
-#error TXC0 not definable in HardwareSerial.h
-#endif
-#endif
+
 
 uint8_t _pin = 0;
 float SER_CLEAR_TM = 0.0;
-
-// Define constants and variables for buffering incoming serial data.  We're
-// using a ring buffer (I think), in which head is the index of the location
-// to which to write the next incoming character and tail is the index of the
-// location from which to read.
-
-// Do not set to 256 or higher because head and tail are uint8_t for atomic access - JM
-#if (RAMEND < 1000)
-  #define SERIAL_BUFFER_SIZE 16
-#else
-  #define SERIAL_BUFFER_SIZE 64
-#endif
 
 struct ring_buffer
 {
