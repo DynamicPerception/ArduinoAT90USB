@@ -85,7 +85,7 @@
 			 *  defining \c HID_STATETABLE_STACK_DEPTH to another value in the user project makefile, passing the
 			 *  define to the compiler using the -D compiler switch.
 			 */
-			#define HID_STATETABLE_STACK_DEPTH    2
+			#define HID_STATETABLE_STACK_DEPTH    1
 		#endif
 
 		#if !defined(HID_USAGE_STACK_DEPTH) || defined(__DOXYGEN__)
@@ -96,7 +96,7 @@
 			 *  value in the user project makefile, passing the define to the compiler using the -D compiler
 			 *  switch.
 			 */
-			#define HID_USAGE_STACK_DEPTH         8
+			#define HID_USAGE_STACK_DEPTH         4
 		#endif
 
 		#if !defined(HID_MAX_COLLECTIONS) || defined(__DOXYGEN__)
@@ -106,7 +106,7 @@
 			 *  overridden by defining \c HID_MAX_COLLECTIONS to another value in the user project makefile, passing
 			 *  the define to the compiler using the -D compiler switch.
 			 */
-			#define HID_MAX_COLLECTIONS           10
+			#define HID_MAX_COLLECTIONS           6
 		#endif
 
 		#if !defined(HID_MAX_REPORTITEMS) || defined(__DOXYGEN__)
@@ -116,7 +116,7 @@
 			 *  but this can be overridden by defining \c HID_MAX_REPORTITEMS to another value in the user project
 			 *  makefile, and passing the define to the compiler using the -D compiler switch.
 			 */
-			#define HID_MAX_REPORTITEMS           20
+			#define HID_MAX_REPORTITEMS           4
 		#endif
 
 		#if !defined(HID_MAX_REPORT_IDS) || defined(__DOXYGEN__)
@@ -127,7 +127,7 @@
 			 *  makefile, and passing the define to the compiler using the -D compiler switch. Note that IN, OUT and FEATURE
 			 *  items sharing the same report ID consume only one size item in the array.
 			 */
-			#define HID_MAX_REPORT_IDS            10
+			#define HID_MAX_REPORT_IDS            8
 		#endif
 
 		/** Returns the value a given HID report item (once its value has been fetched via \ref USB_GetHIDReportItemInfo())
